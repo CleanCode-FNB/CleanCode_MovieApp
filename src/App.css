@@ -10,6 +10,28 @@
   padding: 20px;
 }
 
+/* Header */
+.app-container h1 {
+  font-size: 2rem;
+  /* color: #348b7d; */
+  background-color: #e2964e;
+  text-align: center;
+  /* margin: px 0; */
+  font-family: 'Arial', sans-serif;
+}
+button {
+  background-color: #dd7a37;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #c48a5b;
+}
+
+
 .navbar {
   background-color: #333;
   padding: 10px;
@@ -40,7 +62,6 @@
   bottom: 0;
   width: 100%;
 }
-
 
 .movie-card {
   border: 1px solid #ccc;

@@ -48,6 +48,10 @@ button {
   cursor: pointer;
 }
 
+header{
+  background-color: cadetblue;
+}
+
 button:hover {
   background-color: #0056b3; /* Darker blue */
 }
