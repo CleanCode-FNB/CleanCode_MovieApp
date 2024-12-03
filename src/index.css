@@ -37,23 +37,28 @@ a:hover {
   text-decoration: underline;
 }
 
+
+
 /* Simple button styles */
-button {
+.navbar {
+  display: flex;
+  align-items: center; /* Vertically center elements */
+  justify-content: space-between; /* Ensures proper spacing */
+}
+
+.navbar button {
   padding: 10px 15px;
   border: none;
-  background-color: #007bff; /* Blue background */
+  background-color: #ee8a06;
   color: white;
   font-size: 16px;
   border-radius: 4px;
   cursor: pointer;
+  margin-right: left; /* Push button to the left */
 }
 
-header{
-  background-color: cadetblue;
-}
-
-button:hover {
-  background-color: #0056b3; /* Darker blue */
+.navbar button:hover {
+  background-color: #ca9150;
 }
 
 /* Utility classes */

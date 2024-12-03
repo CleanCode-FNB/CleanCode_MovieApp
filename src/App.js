@@ -5,7 +5,6 @@ import MovieDetails from './components/MovieDetails';
 import Navbar from './components/NavBar';
 import Footer from './components/Footer';
 import Header from './components/Header'; // Import the Header component
-import loginbutton from './components/Loginbutton';
 import './App.css';
 
 const App = () => {
@@ -13,7 +12,6 @@ const App = () => {
     <div className="app-container">
       {/* Header appears above the Navbar */}
       <Header />
-      <loginbutton/>
       <Navbar />
       <div className="main-content">
         <Routes>

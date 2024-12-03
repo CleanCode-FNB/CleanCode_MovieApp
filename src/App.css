@@ -19,16 +19,17 @@
   /* margin: px 0; */
   font-family: 'Arial', sans-serif;
 }
-button {
-  background-color: #dd7a37;
+.navbar .button {
+  background-color: #dd7f40;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  position: relative;
 }
 
-button:hover {
-  background-color: #c48a5b;
+.navbar button:hover {
+  background-color: #da965e;
 }
 
 
