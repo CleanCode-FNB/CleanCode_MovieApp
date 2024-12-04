@@ -1,28 +1,39 @@
-import React from "react";
-// import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
+const Navbar = ({ onSearch }) => {
+  const [query, setQuery] = useState("");
 
-const Navbar = () => {
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    onSearch(value); // Pass the search term to the parent component
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent the default form submission behavior
+      onSearch(query); // Execute the search
+    }
+  };
+
   return (
-    // <nav className="navbar">
-    //     <ul>
-    //       <li>
-    //         <Link to="/">Home</Link>
-    //       </li>
-    //       <li>
-    //         <Link to="/search">Search</Link>
-    //       </li>
-    //     </ul>
-    // </nav>
-    <div class="navbar"> 
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/search">Search</a></li>
-    </ul>
+    <div className="navbar">
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <input
+          type="text"
+          placeholder="Search for a movie here"
+          value={query}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown} // Add the keydown handler here
+          className="search-input"
+        />
+      </ul>
       <button>SIGN IN</button>
     </div>
   );
 };
 
 export default Navbar;
-

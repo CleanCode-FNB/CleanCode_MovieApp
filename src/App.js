@@ -12,7 +12,7 @@ const App = () => {
     <div className="app-container">
       {/* Header appears above the Navbar */}
       <Header />
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="main-content">
         <Routes>
           <Route path="/" element={<MovieList />} />
