@@ -42,8 +42,9 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 10px;
   background-color: #5f5e5e;
+  width: 100%;
 }
 
 .navbar .search-input {
