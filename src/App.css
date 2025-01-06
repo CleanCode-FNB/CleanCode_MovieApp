@@ -89,6 +89,18 @@
   text-align: center;
 }
 
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+
 /* .movie-card img.movie-poster {
   width: 100%;
   height: auto;
