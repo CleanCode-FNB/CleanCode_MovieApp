@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MovieList from './components/MovieList';
 import MovieDetails from './components/MovieDetails';
 import Footer from './components/Footer';

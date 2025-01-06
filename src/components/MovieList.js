@@ -8,18 +8,32 @@ function Home() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
 
-  const MovieList = async () => {
-    if (query) {
+  // Fetch default popular movies on initial load
+  useEffect(() => {
+    const fetchPopularMovies = async () => {
       const response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`
+        `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
       );
       const data = await response.json();
       setMovies(data.results || []);
-    }
-  };
+    };
 
+    fetchPopularMovies();
+  }, []);
+
+  // Fetch searched movies when a query is entered
   useEffect(() => {
-    MovieList();
+    const fetchSearchedMovies = async () => {
+      if (query) {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`
+        );
+        const data = await response.json();
+        setMovies(data.results || []);
+      }
+    };
+
+    fetchSearchedMovies();
   }, [query]);
 
   return (

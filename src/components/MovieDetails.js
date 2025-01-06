@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const API_KEY = "078df9dfba1da4749720454b9a3e1c14";
 
@@ -30,6 +30,9 @@ function MovieDetails() {
       />
       <p>{movie.overview}</p>
       <p>Release Date: {movie.release_date}</p>
+      <Link to="/" className="back-btn">
+        Back to Home
+      </Link>
     </div>
   );
 }
