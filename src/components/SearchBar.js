@@ -17,7 +17,7 @@ class SearchBar extends Component {
     this.props.onSearch(query, this.state.selectedGenre, this.state.selectedSort);
   };
 
-  // Handle genre filter change
+  // Handle genre filter change 
   handleGenreChange = (event) => {
     const selectedGenre = event.target.value;
     this.setState({ selectedGenre });
