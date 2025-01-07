@@ -10,7 +10,7 @@ class SearchBar extends Component {
     };
   }
 
-  // Handle search query change
+  // Handle search query change 
   handleSearchChange = (event) => {
     const query = event.target.value;
     this.setState({ query });
