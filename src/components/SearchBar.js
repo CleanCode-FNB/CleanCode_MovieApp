@@ -5,7 +5,7 @@ class SearchBar extends Component {
     super(props);
     this.state = {
       query: '',
-      selectedSort: 'rating',  // Default sort by rating
+      selectedSort: 'rating',  // Default sort by rating 
       selectedGenre: 'All',   // Default filter for all genres
     };
   }
