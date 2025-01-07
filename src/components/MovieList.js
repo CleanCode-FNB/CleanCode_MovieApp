@@ -54,7 +54,7 @@ const MovieList = () => {
       filteredList = filteredList.sort((a, b) => a.title.localeCompare(b.title));
     }
 
-    // Update the state with filtered and sorted list
+    // Update the state with filtered and sorted list 
     setFilteredMovies(filteredList);
   };
 
