@@ -47,7 +47,7 @@ const MovieList = () => {
       filteredList = filteredList.filter((movie) => movie.genre === selectedGenre);
     }
 
-    // Apply sorting
+    // Apply sorting 
     if (selectedSort === 'rating') {
       filteredList = filteredList.sort((a, b) => b.rating - a.rating);
     } else if (selectedSort === 'title') {
