@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MovieCard from './MovieCard';
+import SearchBar from './SearchBar';
 
 const MovieList = () => {
   const movies = [
@@ -24,12 +25,73 @@ const MovieList = () => {
     { title: "Spider-Man: Into the Spider-Verse", genre: "Animation", rating: 8.4, description: "A teen discovers his superhero potential in a multiverse." },
     { title: "Frozen", genre: "Animation", rating: 7.4, description: "Two sisters navigate a magical adventure in Arendelle." }
   ];
-  
+
+  const [filteredMovies, setFilteredMovies] = useState(movies);
+  const [query, setQuery] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('All');
+  const [selectedSort, setSelectedSort] = useState('rating');
+
+  // Handle the search, filter, and sort logic
+  const handleSearch = (query, selectedGenre, selectedSort) => {
+    let filteredList = movies;
+
+    // Apply search query filter
+    if (query) {
+      filteredList = filteredList.filter((movie) =>
+        movie.title.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+
+    // Apply genre filter
+    if (selectedGenre && selectedGenre !== 'All') {
+      filteredList = filteredList.filter((movie) => movie.genre === selectedGenre);
+    }
+
+    // Apply sorting
+    if (selectedSort === 'rating') {
+      filteredList = filteredList.sort((a, b) => b.rating - a.rating);
+    } else if (selectedSort === 'title') {
+      filteredList = filteredList.sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    // Update the state with filtered and sorted list
+    setFilteredMovies(filteredList);
+  };
+
+  // Handle SearchBar changes
+  const handleSearchQueryChange = (newQuery) => {
+    setQuery(newQuery);
+    handleSearch(newQuery, selectedGenre, selectedSort);
+  };
+
+  const handleGenreChange = (newGenre) => {
+    setSelectedGenre(newGenre);
+    handleSearch(query, newGenre, selectedSort);
+  };
+
+  const handleSortChange = (newSort) => {
+    setSelectedSort(newSort);
+    handleSearch(query, selectedGenre, newSort);
+  };
+
   return (
-    <div className="movie-list">
-      {movies.map((movie, index) => (
-        <MovieCard key={index} movie={movie} />
-      ))}
+    <div>
+      <SearchBar
+        onSearch={handleSearchQueryChange}
+        onGenreChange={handleGenreChange}
+        onSortChange={handleSortChange}
+        selectedGenre={selectedGenre}
+        selectedSort={selectedSort}
+      />
+      <div className="movie-list">
+        {filteredMovies.length > 0 ? (
+          filteredMovies.map((movie, index) => (
+            <MovieCard key={index} movie={movie} />
+          ))
+        ) : (
+          <p>No movies found</p>
+        )}
+      </div>
     </div>
   );
 };
