@@ -35,7 +35,7 @@ const MovieList = () => {
   const handleSearch = (query, selectedGenre, selectedSort) => {
     let filteredList = movies;
 
-    // Apply search query filter
+    // Apply search query filter 
     if (query) {
       filteredList = filteredList.filter((movie) =>
         movie.title.toLowerCase().includes(query.toLowerCase())
