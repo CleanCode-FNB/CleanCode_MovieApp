@@ -1,24 +1,18 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import MovieList from './components/MovieList';
-import MovieDetails from './components/MovieDetails';
-import Footer from './components/Footer';
-import Header from './components/Header'; // Import the Header component
-import './App.css';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./components/LoginPage";
+import RegistrationPage from "./components/registration";
+import AdminDashboard from "./components/AdminDashboard";
+import UserDashboard from "./components/UserDashboard";
 
 const App = () => {
   return (
-    <div className="app-container">
-      {/* Header appears above the Navbar */}
-      <Header />
-      <div className="main-content">
-        <Routes>
-          <Route path="/" element={<MovieList />} />
-          <Route path="/movies/:id" element={<MovieDetails />} />
-        </Routes>
-      </div>
-      <Footer />
-    </div>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/register" element={<RegistrationPage />}/>
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      <Route path="/user-dashboard" element={<UserDashboard />} />
+    </Routes>
   );
 };
 
