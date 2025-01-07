@@ -42,7 +42,7 @@ const MovieList = () => {
       );
     }
 
-    // Apply genre filter
+    // Apply genre filter 
     if (selectedGenre && selectedGenre !== 'All') {
       filteredList = filteredList.filter((movie) => movie.genre === selectedGenre);
     }
