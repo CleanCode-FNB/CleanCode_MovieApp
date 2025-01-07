@@ -58,7 +58,7 @@ const MovieList = () => {
     setFilteredMovies(filteredList);
   };
 
-  // Handle SearchBar changes
+  // Handle SearchBar changes 
   const handleSearchQueryChange = (newQuery) => {
     setQuery(newQuery);
     handleSearch(newQuery, selectedGenre, selectedSort);
