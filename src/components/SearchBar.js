@@ -24,7 +24,7 @@ class SearchBar extends Component {
     this.props.onSearch(this.state.query, selectedGenre, this.state.selectedSort);
   };
 
-  // Handle sorting change
+  // Handle sorting change 
   handleSortChange = (event) => {
     const selectedSort = event.target.value;
     this.setState({ selectedSort });
