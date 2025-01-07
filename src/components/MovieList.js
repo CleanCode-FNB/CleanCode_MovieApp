@@ -31,7 +31,7 @@ const MovieList = () => {
   const [selectedGenre, setSelectedGenre] = useState('All');
   const [selectedSort, setSelectedSort] = useState('rating');
 
-  // Handle the search, filter, and sort logic
+  // Handle the search, filter, and sort logic 
   const handleSearch = (query, selectedGenre, selectedSort) => {
     let filteredList = movies;
 
