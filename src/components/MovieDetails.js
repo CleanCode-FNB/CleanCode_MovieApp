@@ -1,45 +1,40 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 
-class MovieDetails extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      movie: null,
-      loading: true,
-      error: null,
+const API_KEY = "078df9dfba1da4749720454b9a3e1c14";
+
+function MovieDetails() {
+  const { id } = useParams();
+  const [movie, setMovie] = useState(null);
+
+  useEffect(() => {
+    const fetchMovieDetails = async () => {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+      );
+      const data = await response.json();
+      setMovie(data);
     };
-  }
 
-  componentDidMount() {
-    const { match } = this.props; // Assuming you're using React Router
-    const movieId = match.params.id;
+    fetchMovieDetails();
+  }, [id]);
 
-    axios.get(`http://localhost:5000/movies/${movieId}`)
-      .then(response => {
-        this.setState({ movie: response.data, loading: false });
-      })
-      .catch(error => {
-        this.setState({ error: 'Failed to fetch movie details', loading: false });
-      });
-  }
+  if (!movie) return <p>Loading...</p>;
 
-  render() {
-    const { loading, movie, error } = this.state;
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
-
-    return (
-      <div className="movie-details">
-        <h1>{movie.title}</h1>
-        <p>{movie.description}</p>
-        <p>Genre: {movie.genre}</p>
-        <p>Rating: {movie.rating}</p>
-       
-      </div>
-    );
-  }
+  return (
+    <div className="movie-details">
+      <h2>{movie.title}</h2>
+      <img
+        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        alt={movie.title}
+      />
+      <p>{movie.overview}</p>
+      <p>Release Date: {movie.release_date}</p>
+      <Link to="/" className="back-btn">
+        Back to Home
+      </Link>
+    </div>
+  );
 }
 
 export default MovieDetails;
