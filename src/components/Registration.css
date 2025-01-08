@@ -51,17 +51,17 @@
   /* Button Styles */
   .registration-button,
   .login-link {
-    width: 100%; /* Ensure both buttons take up the same width */
-    padding: 12px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: none; /* Ensure no borders */
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #4e54c8;
+  color: white;
+  width: 120px 10px;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
   }
   
   .registration-button {

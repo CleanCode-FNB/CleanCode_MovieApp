@@ -1,22 +1,22 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Calendar, User, Clock, Star } from "lucide-react";
 import "./Userdashboard.css";
- 
+
 const Navbar = () => {
   const navigate = useNavigate();
- 
+
   const handleLogout = () => {
     localStorage.removeItem("userToken");
     navigate("/");
   };
- 
+
   return (
     <nav className="navbar">
       <div className="nav-container">
         <h1 className="nav-logo">Clean Movies</h1>
         <ul className="nav-links">
+          <li><Link to="/">Home</Link></li>
           <li><Link to="/search">Search</Link></li>
           <button onClick={handleLogout} className="logout-btn">
             Logout
@@ -26,7 +26,7 @@ const Navbar = () => {
     </nav>
   );
 };
- 
+
 const SearchBar = ({ setQuery }) => (
   <div className="search-container">
     <Search className="search-icon" size={20} />
@@ -38,11 +38,11 @@ const SearchBar = ({ setQuery }) => (
     />
   </div>
 );
- 
+
 const MovieCard = ({ movie }) => {
   const [details, setDetails] = useState(null);
   const API_KEY = "078df9dfba1da4749720454b9a3e1c14";
- 
+
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
@@ -56,20 +56,20 @@ const MovieCard = ({ movie }) => {
         console.error("Error fetching movie details:", error);
       }
     };
- 
+
     fetchMovieDetails();
   }, [movie.id]);
- 
+
   const director = details?.credits?.crew?.find(
     (person) => person.job === "Director"
   )?.name;
- 
+
   const formatRuntime = (minutes) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${hours}h ${mins}m`;
   };
- 
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       day: 'numeric',
@@ -77,7 +77,7 @@ const MovieCard = ({ movie }) => {
       year: 'numeric'
     });
   };
- 
+
   return (
     <div className="movie-card">
       <div className="movie-poster-container">
@@ -97,28 +97,28 @@ const MovieCard = ({ movie }) => {
       </div>
       <div className="movie-info">
         <h3 className="movie-title">{movie.title}</h3>
-       
+        
         {details && (
           <div className="movie-details">
             <div className="detail-item">
               <Calendar size={16} />
               <span>{formatDate(movie.release_date)}</span>
             </div>
-           
+            
             {details.runtime > 0 && (
               <div className="detail-item">
                 <Clock size={16} />
                 <span>{formatRuntime(details.runtime)}</span>
               </div>
             )}
-           
+            
             {director && (
               <div className="detail-item">
                 <User size={16} />
                 <span>{director}</span>
               </div>
             )}
-           
+            
             {details.genres && (
               <div className="genre-tags">
                 {details.genres.slice(0, 2).map(genre => (
@@ -130,21 +130,21 @@ const MovieCard = ({ movie }) => {
             )}
           </div>
         )}
-       
+        
         <p className="movie-overview">{movie.overview}</p>
       </div>
     </div>
   );
 };
- 
+
 const UserDashboard = () => {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
- 
+
   const API_KEY = "078df9dfba1da4749720454b9a3e1c14";
- 
+
   useEffect(() => {
     const fetchPopularMovies = async () => {
       setLoading(true);
@@ -162,10 +162,10 @@ const UserDashboard = () => {
         setLoading(false);
       }
     };
- 
+
     fetchPopularMovies();
   }, []);
- 
+
   useEffect(() => {
     const fetchSearchedMovies = async () => {
       if (!query) return;
@@ -184,29 +184,29 @@ const UserDashboard = () => {
         setLoading(false);
       }
     };
- 
+
     const debounceFetch = setTimeout(fetchSearchedMovies, 500);
     return () => clearTimeout(debounceFetch);
   }, [query]);
- 
+
   return (
     <div className="dashboard">
       <Navbar />
       <main className="main-content">
         <SearchBar setQuery={setQuery} />
-       
+        
         {loading && (
           <div className="loading-container">
             <div className="loading-spinner"></div>
           </div>
         )}
-       
+        
         {error && (
           <div className="error-message">
             {error}
           </div>
         )}
-       
+        
         <div className="movie-grid">
           {movies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
@@ -216,5 +216,5 @@ const UserDashboard = () => {
     </div>
   );
 };
- 
+
 export default UserDashboard;
