@@ -3,9 +3,34 @@ import { Link, useNavigate } from "react-router-dom";
 import { Search, Calendar, User, Clock, Star } from "lucide-react";
 import "./Userdashboard.css";
 
-const Navbar = () => {
+const Navbar = ({ filterByRating }) => {
   const navigate = useNavigate();
 
+  {/*---variables for categories,year, and ratings----*/}
+  const [showCategories, setShowCategories] = useState(false);
+  const [showYears, setShowYears] = useState(false);
+  const [showRatings, setShowRatings] = useState(false);
+
+  const toggleCategories = () => {
+    setShowCategories(!showCategories);
+    setShowYears(false);
+    setShowRatings(false);
+  };
+
+  const toggleYears = () => {
+    setShowYears(!showYears);
+    setShowCategories(false);
+    setShowRatings(false);
+  };
+
+  const toggleRatings = () => {
+    setShowRatings(!showRatings);
+    setShowCategories(false);
+    setShowYears(false);
+  };
+  
+const Navbar = () => {
+  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("userToken");
     navigate("/");
@@ -17,6 +42,44 @@ const Navbar = () => {
         <h1 className="nav-logo">Clean Movies</h1>
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
+          {/* <li><Link to="/search">Search</Link></li> */}
+          
+        </ul>
+        {/*---new details---*/}
+        <ul>
+          <li onClick={toggleCategories} style={{ cursor: 'pointer' }}>Categories</li>
+          {showCategories && (
+            <ul className="dropdown">
+              <li>Action</li>
+              <li>Comedy</li>
+              <li>Drama</li>
+              <li>Horror</li>
+              <li>Romance</li>
+            </ul>
+          )}
+
+          <li onClick={toggleYears} style={{ cursor: 'pointer' }}>Year</li>
+          {showYears && (
+            <ul className="dropdown">
+              {Array.from({ length: 7 }, (_, i) => (
+                <li key={2018 + i}>{2018 + i}</li>
+              ))}
+            </ul>
+          )}
+
+          <li onClick={toggleRatings} style={{ cursor: 'pointer' }}>Ratings</li>
+          {showRatings && (
+            <ul className="dropdown">
+              <li onClick={() => filterByRating('green')}>Green</li>
+              <li onClick={() => filterByRating('orange')}>Yellow</li>
+              <li onClick={() => filterByRating('red')}>Red</li>
+            </ul>
+          )}
+          
+      </ul>
+      <button onClick={handleLogout} className="logout-btn">
+            Logout
+      </button>
           <li><Link to="/search">Search</Link></li>
           <button onClick={handleLogout} className="logout-btn">
             Logout
@@ -41,6 +104,8 @@ const SearchBar = ({ setQuery }) => (
 
 const MovieCard = ({ movie }) => {
   const [details, setDetails] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
+
   const API_KEY = "078df9dfba1da4749720454b9a3e1c14";
 
   useEffect(() => {
@@ -81,6 +146,14 @@ const MovieCard = ({ movie }) => {
   return (
     <div className="movie-card">
       <div className="movie-poster-container">
+        {/* The toggle button is now at the top left of the movie poster */}
+        <button
+          className="toggle-details-btn"
+          onClick={() => setShowDetails(!showDetails)}
+        >
+          {showDetails ? "Hide Details" : "Show Details"}
+        </button>
+        
         <img
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
           alt={movie.title}
@@ -90,6 +163,8 @@ const MovieCard = ({ movie }) => {
             e.target.alt = "Movie poster not available";
           }}
         />
+         {/* Conditionally render the movie details */}
+         {showDetails && details && (
         <div className="movie-rating">
           <Star className="star-icon" size={16} />
           <span>{movie.vote_average.toFixed(1)}</span>
@@ -104,21 +179,21 @@ const MovieCard = ({ movie }) => {
               <Calendar size={16} />
               <span>{formatDate(movie.release_date)}</span>
             </div>
-            
+
             {details.runtime > 0 && (
               <div className="detail-item">
                 <Clock size={16} />
                 <span>{formatRuntime(details.runtime)}</span>
               </div>
             )}
-            
+
             {director && (
               <div className="detail-item">
                 <User size={16} />
                 <span>{director}</span>
               </div>
             )}
-            
+
             {details.genres && (
               <div className="genre-tags">
                 {details.genres.slice(0, 2).map(genre => (
@@ -130,12 +205,23 @@ const MovieCard = ({ movie }) => {
             )}
           </div>
         )}
-        
+        <div className="movie-rating">
+          <Star className="star-icon" size={16} />
+          <span>{movie.vote_average.toFixed(1)}</span>
+        </div>
+      </div>
+      <div className="movie-info">
+        <h3 className="movie-title">{movie.title}</h3>
+
+       
+
+        {/* Movie overview with sliding effect on hover */}
         <p className="movie-overview">{movie.overview}</p>
       </div>
     </div>
   );
 };
+
 
 const UserDashboard = () => {
   const [query, setQuery] = useState("");
