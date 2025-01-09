@@ -1,0 +1,99 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Page Container */
+  .registration-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+  }
+  
+  /* Registration Box */
+  .registration-box {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  .registration-box h1 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #4e54c8;
+  }
+  
+  /* Input Styles */
+  .registration-input {
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .registration-input:focus {
+    border-color: #4e54c8;
+  }
+  
+  /* Button Styles */
+  .registration-button,
+  .login-link {
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #4e54c8;
+  color: white;
+  width: 120px 10px;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  }
+  
+  .registration-button {
+    background-color: #4e54c8;
+  }
+  
+  .registration-button:hover {
+    background-color: #6b6fff;
+  }
+  
+  .login-link {
+    background-color: #4e54c8;
+    display: inline-block; /* Keep it as a block element if needed */
+  }
+  
+  .login-link:hover {
+    background-color: #6b6fff;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .registration-box {
+      padding: 1.5rem;
+    }
+  
+    .registration-box h1 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .buttons {
+    display: flex;
+    
+  }
+  

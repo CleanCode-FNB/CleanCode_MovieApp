@@ -65,6 +65,9 @@
   /* padding: 1rem 1.5rem;
   position: fixed;
   width: 100%; */
+  padding: 1rem 1.5rem;
+  position: fixed;
+  width: 100%;
   top: 0;
   z-index: 50;
 }
@@ -264,7 +267,16 @@
   font-weight: 500;
 }
 
-
+.movie-overview {
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 0.75rem;
+}
 /* Loading Spinner */
 .loading-container {
   display: flex;
@@ -348,4 +360,6 @@
 .movie-card:hover .movie-overview {
   transform: translateY(0%);
 }
+
+
 

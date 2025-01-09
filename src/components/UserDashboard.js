@@ -29,7 +29,8 @@ const Navbar = ({ filterByRating }) => {
     setShowYears(false);
   };
   
-
+const Navbar = () => {
+  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("userToken");
     navigate("/");
@@ -79,11 +80,15 @@ const Navbar = ({ filterByRating }) => {
       <button onClick={handleLogout} className="logout-btn">
             Logout
       </button>
+          <li><Link to="/search">Search</Link></li>
+          <button onClick={handleLogout} className="logout-btn">
+            Logout
+          </button>
+        </ul>
       </div>
     </nav>
   );
 };
-
 
 const SearchBar = ({ setQuery }) => (
   <div className="search-container">
@@ -100,6 +105,7 @@ const SearchBar = ({ setQuery }) => (
 const MovieCard = ({ movie }) => {
   const [details, setDetails] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
+
   const API_KEY = "078df9dfba1da4749720454b9a3e1c14";
 
   useEffect(() => {
@@ -159,6 +165,15 @@ const MovieCard = ({ movie }) => {
         />
          {/* Conditionally render the movie details */}
          {showDetails && details && (
+        <div className="movie-rating">
+          <Star className="star-icon" size={16} />
+          <span>{movie.vote_average.toFixed(1)}</span>
+        </div>
+      </div>
+      <div className="movie-info">
+        <h3 className="movie-title">{movie.title}</h3>
+        
+        {details && (
           <div className="movie-details">
             <div className="detail-item">
               <Calendar size={16} />
@@ -206,7 +221,6 @@ const MovieCard = ({ movie }) => {
     </div>
   );
 };
-
 
 
 const UserDashboard = () => {

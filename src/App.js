@@ -1,23 +1,21 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import MovieList from './components/MovieList';
-import MovieDetails from './components/MovieDetails';
-import Navbar from './components/NavBar';
-import Footer from './components/Footer';
-import './App.css';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./components/LoginPage";
+import RegistrationPage from "./components/registration";
+import AdminDashboard from "./components/AdminDashboard";
+import UserDashboard from "./components/UserDashboard";
+import LandingPage from "./components/Landingpage";
 
 const App = () => {
   return (
-    <div className="app-container">
-      <Navbar />
-      <div className="main-content">
-        <Routes>
-          <Route path="/" element={<MovieList />} />
-          <Route path="/movies/:id" element={<MovieDetails />} />
-        </Routes>
-      </div>
-      <Footer />
-    </div>
+    <Routes>
+      <Route path="/" element={<LandingPage/>} />
+      <Route path="/LoginPage" element={<LoginPage />} />
+      <Route path="/register" element={<RegistrationPage />}/>
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      <Route path="/user-dashboard" element={<UserDashboard />} />
+      
+    </Routes>
   );
 };
 
