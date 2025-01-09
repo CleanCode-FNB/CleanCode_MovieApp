@@ -12,8 +12,8 @@
 
 .nav-container {
   display: flex;
-  justify-content: space-between;  /* Pushes logo to left and links to right */
-  align-items: center;  /* Vertically centers the items */
+  justify-content: space-between;  
+  align-items: center;  
 }
 
 .nav-logo {

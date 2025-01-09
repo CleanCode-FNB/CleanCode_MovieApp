@@ -28,7 +28,7 @@ const Navbar = ({ filterByRating }) => {
     setShowCategories(false);
     setShowYears(false);
   };
-  {/*---------------------*/}
+  
 
   const handleLogout = () => {
     localStorage.removeItem("userToken");
