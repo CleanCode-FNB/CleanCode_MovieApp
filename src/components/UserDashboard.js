@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Calendar, User, Clock, Star } from "lucide-react";
 import "./Userdashboard.css";
-
  
 const Navbar = () => {
   const navigate = useNavigate();
@@ -25,29 +24,33 @@ const Navbar = () => {
 };
  
  
-const SearchBar = ({ setQuery, genres, setGenre }) => (
-  <div className="search-container">
-    <Search className="search-icon" size={20} />
-    <input
-      type="text"
-      onChange={(e) => setQuery(e.target.value)}
-      placeholder="Search for movies by title..."
-      className="search-input"
-    />
-    <select onChange={(e) => setGenre(e.target.value)} className="search-input">
-      <option value="">Select Genre</option>
-      {genres.map((genre) => (
-        <option key={genre.id} value={genre.id}>
-          {genre.name}
-        </option>
-      ))}
-    </select>
+const SearchBar = ({ setQuery, genres, setGenre, moviePoster }) => (
+  <div className="search-card" style={{ backgroundImage: `url('https://preview.redd.it/another-look-at-moana-2-releasing-this-november-v0-61sxvaoejbsc1.jpeg?auto=webp&s=4c6dea7e9e3f79e25039f824332a8708853b368b')` }}>
+    <div className="search-container">
+      <Search className="search-icon" size={20} />
+      <input
+        type="text"
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search for movies by title..."
+        className="search-input"
+      />
+      <select onChange={(e) => setGenre(e.target.value)} className="search-input">
+        <option value="">Select Genre</option>
+        {genres.map((genre) => (
+          <option key={genre.id} value={genre.id}>
+            {genre.name}
+          </option>
+        ))}
+      </select>
+    </div>
   </div>
 );
  
+ 
+ 
+ 
 const MovieCard = ({ movie }) => {
   const [details, setDetails] = useState(null);
-  const [showDetails, setShowDetails] = useState(false);
   const API_KEY = "078df9dfba1da4749720454b9a3e1c14";
  
   useEffect(() => {
@@ -88,14 +91,6 @@ const MovieCard = ({ movie }) => {
   return (
     <div className="movie-card">
       <div className="movie-poster-container">
-        {/* The toggle button is now at the top left of the movie poster */}
-        <button
-          className="toggle-details-btn"
-          onClick={() => setShowDetails(!showDetails)}
-        >
-          {showDetails ? "Hide Details" : "Show Details"}
-        </button>
-       
         <img
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
           alt={movie.title}
@@ -105,28 +100,35 @@ const MovieCard = ({ movie }) => {
             e.target.alt = "Movie poster not available";
           }}
         />
-         {/* Conditionally render the movie details */}
-         {showDetails && details && (
+        <div className="movie-rating">
+          <Star className="star-icon" size={16} />
+          <span>{movie.vote_average.toFixed(1)}</span>
+        </div>
+      </div>
+      <div className="movie-info">
+        <h3 className="movie-title">{movie.title}</h3>
+       
+        {details && (
           <div className="movie-details">
             <div className="detail-item">
               <Calendar size={16} />
               <span>{formatDate(movie.release_date)}</span>
             </div>
- 
+           
             {details.runtime > 0 && (
               <div className="detail-item">
                 <Clock size={16} />
                 <span>{formatRuntime(details.runtime)}</span>
               </div>
             )}
- 
+           
             {director && (
               <div className="detail-item">
                 <User size={16} />
                 <span>{director}</span>
               </div>
             )}
- 
+           
             {details.genres && (
               <div className="genre-tags">
                 {details.genres.slice(0, 2).map(genre => (
@@ -138,24 +140,12 @@ const MovieCard = ({ movie }) => {
             )}
           </div>
         )}
-        <div className="movie-rating">
-          <Star className="star-icon" size={16} />
-          <span>{movie.vote_average.toFixed(1)}</span>
-        </div>
-      </div>
-      <div className="movie-info">
-        <h3 className="movie-title">{movie.title}</h3>
- 
        
- 
-        {/* Movie overview with sliding effect on hover */}
         <p className="movie-overview">{movie.overview}</p>
       </div>
     </div>
   );
 };
-
-
  
 const UserDashboard = () => {
   const [query, setQuery] = useState("");
@@ -234,16 +224,14 @@ const UserDashboard = () => {
           ))}
         </div>
       </main>
-   
       <footer className="footer">
         <div className="footer-container">
           <p>&copy; 2025 Clean Movies. All rights reserved.</p><p>        
           </p>
         </div>
-      </footer> 
-
+      </footer>
     </div>
   );
 };
-
-export default UserDashboard;
+ 
+export default UserDashboard
