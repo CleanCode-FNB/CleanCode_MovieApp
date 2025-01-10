@@ -16,7 +16,7 @@ const RegistrationPage = () => {
   
       try {
         // Sending the registration data to the backend using fetch API
-        const response = await fetch("http://localhost:5000/register", {
+        const response = await fetch("https://cleancode-movieapp-server.onrender.com/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
