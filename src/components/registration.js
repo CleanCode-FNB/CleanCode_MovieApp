@@ -29,7 +29,7 @@ const RegistrationPage = () => {
         // Handling the response
         if (response.ok) {
           alert("Registration successful");
-          navigate("/"); // Redirect to the login page
+          navigate("/LoginPage"); // Redirect to the login page
         } else {
           alert(data.message || "Registration failed");
         }
@@ -84,7 +84,7 @@ className="registration-input"
 <button type="submit" className="registration-button">
     Register
 </button>
-<Link to="/" className="login-link">
+<Link to="/LoginPage" className="login-link">
 Login 
 </Link>
 
