@@ -1,23 +1,21 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Userdashboard.css'
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Search, Calendar, User, Clock, Star } from "lucide-react";
+import "./Userdashboard.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('userToken');
-    navigate('/');
+    localStorage.removeItem("userToken");
+    navigate("/");
   };
 
   return (
     <nav className="navbar">
-      <div className="nav-content">
-        <ul className="nav-links">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/search">Search</Link></li>
-        </ul>
-        <button onClick={handleLogout} className="logout-button">
+      <div className="nav-container">
+        <h1 className="nav-logo">🎬 Clean Movies</h1>
+        <button onClick={handleLogout} className="logout-btn">
           Logout
         </button>
       </div>
@@ -25,76 +23,202 @@ const Navbar = () => {
   );
 };
 
+const SearchBar = ({ setQuery, genres, setGenre }) => (
+  <div className="search-container">
+    <Search className="search-icon" size={20} />
+    <input
+      type="text"
+      onChange={(e) => setQuery(e.target.value)}
+      placeholder="Search for movies by title..."
+      className="search-input"
+    />
+    <select onChange={(e) => setGenre(e.target.value)} className="search-input">
+      <option value="">Select Genre</option>
+      {genres.map((genre) => (
+        <option key={genre.id} value={genre.id}>
+          {genre.name}
+        </option>
+      ))}
+    </select>
+  </div>
+);
+
 const MovieCard = ({ movie }) => {
-  const { title, genre, rating, description } = movie;
+  const [details, setDetails] = useState(null);
+  const API_KEY = "078df9dfba1da4749720454b9a3e1c14";
+
+  useEffect(() => {
+    const fetchMovieDetails = async () => {
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY}&append_to_response=credits`
+        );
+        if (!response.ok) throw new Error("Failed to fetch movie details");
+        const data = await response.json();
+        setDetails(data);
+      } catch (error) {
+        console.error("Error fetching movie details:", error);
+      }
+    };
+
+    fetchMovieDetails();
+  }, [movie.id]);
+
+  const director = details?.credits?.crew?.find(
+    (person) => person.job === "Director"
+  )?.name;
+
+  const formatRuntime = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+  };
+
   return (
     <div className="movie-card">
-      <div className="movie-content">
-        <h3 className="movie-title">{title}</h3>
-        <div className="movie-meta">
-          <span className="movie-genre">{genre}</span>
-          <span className="movie-rating">★ {rating}/10</span>
+      <div className="movie-poster-container">
+        <img
+          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          alt={movie.title}
+          className="movie-poster"
+          onError={(e) => {
+            e.target.src = "/api/placeholder/300/450";
+            e.target.alt = "Movie poster not available";
+          }}
+        />
+        <div className="movie-rating">
+          <Star className="star-icon" size={16} />
+          <span>{movie.vote_average.toFixed(1)}</span>
         </div>
-        <p className="movie-description">{description}</p>
+      </div>
+      <div className="movie-info">
+        <h3 className="movie-title">{movie.title}</h3>
+        
+        {details && (
+          <div className="movie-details">
+            <div className="detail-item">
+              <Calendar size={16} />
+              <span>{formatDate(movie.release_date)}</span>
+            </div>
+            
+            {details.runtime > 0 && (
+              <div className="detail-item">
+                <Clock size={16} />
+                <span>{formatRuntime(details.runtime)}</span>
+              </div>
+            )}
+            
+            {director && (
+              <div className="detail-item">
+                <User size={16} />
+                <span>{director}</span>
+              </div>
+            )}
+            
+            {details.genres && (
+              <div className="genre-tags">
+                {details.genres.slice(0, 2).map(genre => (
+                  <span key={genre.id} className="genre-tag">
+                    {genre.name}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        
+        <p className="movie-overview">{movie.overview}</p>
       </div>
     </div>
   );
 };
 
 const UserDashboard = () => {
-  const movies = [
-    { title: "Inception", genre: "Sci-Fi", rating: 9, description: "A mind-bending thriller by Christopher Nolan." },
-    { title: "The Dark Knight", genre: "Action", rating: 9.5, description: "The epic Batman sequel." },
-    { title: "Interstellar", genre: "Sci-Fi", rating: 8.6, description: "A journey through space and time to save humanity." },
-    { title: "The Matrix", genre: "Sci-Fi", rating: 8.7, description: "A hacker discovers the shocking reality of his world." },
-    { title: "Parasite", genre: "Thriller", rating: 8.6, description: "A gripping tale of class struggles in South Korea." },
-    { title: "Avengers: Endgame", genre: "Action", rating: 8.4, description: "The Avengers unite for their final showdown." }
-  ];
+  const [query, setQuery] = useState("");
+  const [genre, setGenre] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [genres, setGenres] = useState([]);
 
-  const calculateFavoriteGenre = () => {
-    const genreCounts = movies.reduce((acc, movie) => {
-      acc[movie.genre] = (acc[movie.genre] || 0) + 1;
-      return acc;
-    }, {});
-    return Object.entries(genreCounts).sort((a, b) => b[1] - a[1])[0][0];
-  };
+  const API_KEY = "078df9dfba1da4749720454b9a3e1c14";
+
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`
+        );
+        if (!response.ok) throw new Error("Failed to fetch genres.");
+        const data = await response.json();
+        setGenres(data.genres);
+      } catch (error) {
+        console.error("Error fetching genres:", error);
+      }
+    };
+
+    fetchGenres();
+  }, []);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`;
+        if (query) {
+          url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`;
+        } else if (genre) {
+          url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genre}`;
+        }
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch movies.");
+        const data = await response.json();
+        setMovies(data.results || []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
+  }, [query, genre]);
 
   return (
-    <>
+    <div className="dashboard">
       <Navbar />
-      <div className="dashboard-container">
-        <div className="dashboard-header">
-          <h1 className="dashboard-title">Welcome to Your Dashboard</h1>
-          <p className="dashboard-subtitle">Your personal movie collection and recommendations</p>
+      <main className="main-content">
+        <SearchBar genres={genres} setQuery={setQuery} setGenre={setGenre} />
+        
+        {loading && (
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+          </div>
+        )}
+        
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
+        
+        <div className="movie-grid">
+          {movies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
         </div>
-
-        <div className="stats-grid">
-          <div className="stat-card">
-            <h3 className="stat-title">Total Movies</h3>
-            <p className="stat-value">{movies.length}</p>
-          </div>
-          <div className="stat-card">
-            <h3 className="stat-title">Average Rating</h3>
-            <p className="stat-value">
-              {(movies.reduce((acc, movie) => acc + movie.rating, 0) / movies.length).toFixed(1)}
-            </p>
-          </div>
-          <div className="stat-card">
-            <h3 className="stat-title">Favorite Genre</h3>
-            <p className="stat-value">{calculateFavoriteGenre()}</p>
-          </div>
-        </div>
-
-        <div className="movies-section">
-          <h2 className="dashboard-title">Your Movie Collection</h2>
-          <div className="movies-grid">
-            {movies.map((movie, index) => (
-              <MovieCard key={index} movie={movie} />
-            ))}
-          </div>
-        </div>
-      </div>
-    </>
+      </main>
+    </div>
   );
 };
 
