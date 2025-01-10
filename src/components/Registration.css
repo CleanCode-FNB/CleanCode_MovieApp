@@ -8,12 +8,14 @@
   
   /* Page Container */
   .registration-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #4e54c8, #8f94fb);
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("https://rukminim2.flixcart.com/image/850/1000/xif0q/poster/q/o/p/small-poster-armor-iron-man-robots-the-avengers-movie-tony-stark-original-imaghusjfagmk9py.jpeg?q=90&crop=false")
+}
   
   /* Registration Box */
   .registration-box {

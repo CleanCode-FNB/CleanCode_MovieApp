@@ -1,28 +1,19 @@
-import React, { Component } from 'react';
+import React from "react";
+import { useNavigate } from "react-router-dom";  // Import useNavigate hook from react-router-dom
 
-class SearchBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { query: '' };
-  }
+function SearchBar({ setQuery }) {
+  const navigate = useNavigate();  // Initialize navigate function from useNavigate
 
-  handleChange = (event) => {
-    this.setState({ query: event.target.value });
-    this.props.onSearch(event.target.value);
+  const handleInputChange = (e) => {
+    const query = e.target.value;
+    setQuery(query);
+
+    // If the query is cleared, navigate to the home page
+    if (query.trim() === "") {
+      navigate("/");  // Redirect to home page
+    }
   };
 
-  render() {
-    return (
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search for a movie..."
-          value={this.state.query}
-          onChange={this.handleChange}
-        />
-      </div>
-    );
-  }
 }
 
 export default SearchBar;

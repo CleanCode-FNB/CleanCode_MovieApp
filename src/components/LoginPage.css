@@ -8,9 +8,10 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #4e54c8, #8f94fb);
-    color: black;
-  }
+    background-size: cover;
+    background-repeat: no-repeat; /* Prevents tiling of the image */
+    background-image: url("https://movies.sterkinekor.co.za/CDN/media/entity/get/FilmTitleGraphic/HO00003149?referenceScheme=HeadOffice&allowPlaceHolder=true");
+}
   
   .login-box {
     background-color: white;
