@@ -27,17 +27,32 @@ const Navbar = () => {
   );
 };
 
-const SearchBar = ({ setQuery }) => (
-  <div className="search-container">
-    <Search className="search-icon" size={20} />
-    <input
-      type="text"
-      onChange={(e) => setQuery(e.target.value)}
-      placeholder="Search for movies..."
-      className="search-input"
-    />
-  </div>
-);
+const SearchBar = ({ setQuery }) => {
+  const navigate = useNavigate(); // Initialize navigate function from useNavigate
+
+  // Handle input change and navigate to home if the query is cleared
+  const handleInputChange = (e) => {
+    const query = e.target.value;
+    setQuery(query);
+
+    // If the query is cleared, navigate to the home page
+    if (query.trim() === "") {
+      navigate("/"); // Redirect to home page
+    }
+  };
+
+  return (
+    <div className="search-container">
+      <Search className="search-icon" size={20} />
+      <input
+        type="text"
+        onChange={handleInputChange}
+        placeholder="Search for movies..."
+        className="search-input"
+      />
+    </div>
+  );
+};
 
 const MovieCard = ({ movie }) => {
   const [details, setDetails] = useState(null);
